@@ -6,6 +6,9 @@
 # Extensions
 
 *.pdf
+*.dtmp
+*.bkp
+*.pgn
 
 # Archives
 
@@ -18,3 +21,7 @@
 # Exceptions
 
 *temp*
+*lichess*
+__pycache__
+*test*
+.vscode
