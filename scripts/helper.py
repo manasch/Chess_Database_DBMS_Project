@@ -15,15 +15,16 @@ def extract_from_moves(game_moves):
     # returns the clocktimes, moves and result
     return (" ".join(clocks), moves[0][:-4], moves[0][-4:])
 
-def generate_games():
+def generate_games(n):
     # Just prints the games from the lichess database
     # A new game every 18 lines
     current_dir = Path.cwd().resolve()
 
-    n = int(input("Number of games: "))
-
     res = []
-    with open(current_dir / "db" / "games.pgn") as g:
-        for _ in range(n * 18):
-            res.append(g.readline().strip())
+    with open(current_dir.parent / "db" / "games.pgn") as g:
+        for _ in range(n):
+            temp = []
+            for _k in range(18):
+                temp.append(g.readline().strip())
+            res.append(temp)
     return res

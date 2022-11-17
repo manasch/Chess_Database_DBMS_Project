@@ -9,6 +9,7 @@
 *.dtmp
 *.bkp
 *.pgn
+*.tsv
 
 # Archives
 
