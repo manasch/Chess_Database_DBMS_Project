@@ -23,7 +23,7 @@ create table player_elo (
 );
 
 create table opening (
-    eco varchar(50) not null,
+    eco char(5) not null,
     op_name varchar(255) not null,
     move_set varchar(255) not null,
     primary key (eco, op_name, move_set)
