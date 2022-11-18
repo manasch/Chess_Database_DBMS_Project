@@ -1,3 +1,4 @@
+drop database if exists chess_database;
 create database if not exists chess_database;
 use chess_database
 
@@ -28,7 +29,7 @@ create table opening (
     primary key (eco, op_name, move_set)
 );
 
-create table moves (
+create table game_moves (
     move_id varchar(50) not null,
     move_desc text not null,
     move_timestamps text not null,
@@ -47,7 +48,7 @@ create table game (
     move_id varchar(50) not null,
     primary key (game_id),
     foreign key (eco) references opening(eco),
-    foreign key (move_id) references moves(move_id)
+    foreign key (move_id) references game_moves(move_id)
 );
 
 create table participate (
@@ -70,7 +71,7 @@ create table piece (
 create table board (
     x smallint not null,
     y smallint not null,
-    _square varchar(50),
+    _square char(2),
     primary key (x, y)
 );
 
@@ -3475,7 +3476,7 @@ insert into opening values
 ("E99", "King's Indian Defense: Orthodox Variation, Classical System, Benko Attack", "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Nf3 O-O 6. Be2 e5 7. O-O Nc6 8. d5 Ne7 9. Ne1 Nd7 10. f3 f5 11. g4"),
 ("E99", "King's Indian Defense: Orthodox Variation, Classical System, Traditional Line", "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Nf3 O-O 6. Be2 e5 7. O-O Nc6 8. d5 Ne7 9. Ne1 Nd7 10. f3 f5");
 
-insert into moves values
+insert into game_moves values
 ('6a8bee01', '1. e4 e5 2. Nf3 Nf6 3. d4 exd4 4. e5 Nd5 5. Nxd4 c5 6. Nf3 Nb6 7. Bd3 d5 8. O-O Be7 9. Bb5+ Bd7 10. Bxd7+ N8xd7 11. Re1 O-O 12. Bf4 Nc4 13. b3 Qc7 14. bxc4 Bf6 15. exf6 Qxf4 16. fxg7 Kxg7 17. Qxd5 Qf6 18. Nbd2 Rad8 19. Ne4 Qg6 20. Ne5 Nxe5 21. Qxe5+ f6 22. Qxc5 Rfe8 23. Nd6 Rxe1+ 24. Rxe1 Qxc2 25. Qc7+ Kg6 26. Qxd8 Qc3 27. Qg8+ Kh6 28. Nf7+ Kh5 29. g4+ Kh4 30. Qxh7+ Kxg4 31. Re4+ Kf3 32. Qf5#', '0:03:00 0:03:00 0:02:59 0:02:59 0:02:57 0:02:56 0:02:56 0:02:48 0:02:55 0:02:45 0:02:52 0:02:42 0:02:37 0:02:40 0:02:34 0:02:35 0:02:28 0:02:33 0:02:18 0:02:31 0:02:18 0:02:28 0:02:15 0:02:21 0:02:09 0:02:18 0:02:05 0:02:10 0:01:46 0:02:08 0:01:43 0:02:06 0:01:36 0:02:01 0:01:30 0:01:54 0:01:21 0:01:30 0:01:11 0:01:27 0:01:10 0:01:25 0:01:03 0:01:18 0:00:55 0:01:11 0:00:53 0:01:04 0:00:43 0:00:51 0:00:42 0:00:45 0:00:38 0:00:42 0:00:31 0:00:39 0:00:28 0:00:35 0:00:21 0:00:31 0:00:16 0:00:23 0:00:11'),
 ('f8b7bf7d', '1. d4 e6 2. Nf3 f5 3. Bg5 Nf6 4. c4 Be7 5. Nc3 d6 6. e3 O-O 7. Be2 b6 8. O-O Bb7 9. Rc1 Nbd7 10. a3 e5 11. d5 h6 12. Bxf6 Bxf6 13. b4 a5 14. Qb3 axb4 15. axb4 e4 16. Nd4 Re8 17. Ne6 Qc8 18. Nb5 Bd8 19. Qc3 Bf6 20. Qc2 Bd8 21. Ra1 Rxa1 22. Rxa1 Nf8 23. Nxd8 Rxd8 24. Nd4 Qd7 25. Ra7 Rb8 26. Nb5 Ng6 27. Bh5 Ne5 28. Qb3 Bxd5 29. Rxc7 Qd8 30. cxd5 g6 31. Bxg6 Nxg6 32. Qc3 Ne5 33. Qc1 Ra8 34. Qd1 Nd3 35. h3 Qe8 36. Rc6 Nxb4 37. Qd4 Nxc6 38. dxc6 Qxc6 39. Qf6 Qxb5 40. Qg6+ Kf8 41. Qxh6+ Ke7 42. Qg7+ Ke6 43. Qg6+ Kd7 44. Qf7+ Kc6', '0:03:00 0:03:00 0:02:59 0:02:59 0:02:57 0:02:57 0:02:54 0:02:56 0:02:53 0:02:56 0:02:51 0:02:55 0:02:49 0:02:54 0:02:46 0:02:54 0:02:44 0:02:53 0:02:42 0:02:50 0:02:37 0:02:41 0:02:30 0:02:40 0:02:26 0:02:37 0:02:25 0:02:36 0:02:25 0:02:27 0:02:22 0:02:13 0:02:17 0:02:09 0:02:12 0:02:06 0:01:56 0:02:02 0:01:50 0:01:59 0:01:42 0:01:57 0:01:40 0:01:57 0:01:26 0:01:49 0:01:24 0:01:41 0:01:22 0:01:37 0:01:08 0:01:34 0:00:56 0:01:30 0:00:45 0:01:28 0:00:37 0:00:51 0:00:32 0:00:50 0:00:30 0:00:42 0:00:27 0:00:39 0:00:24 0:00:31 0:00:22 0:00:28 0:00:20 0:00:24 0:00:16 0:00:19 0:00:12 0:00:15 0:00:10 0:00:14 0:00:07 0:00:13 0:00:06 0:00:12 0:00:04 0:00:11 0:00:03 0:00:10 0:00:02 0:00:10 0:00:01 0:00:09'),
 ('2d28f7c5', '1. f4 Nc6 2. e3 Nf6 3. Nf3 d5 4. a3 e5 5. fxe5 Ng4 6. Bb5 Bd7 7. Bxc6 Bxc6 8. h3 Nxe5 9. Nxe5 Qh4+ 10. Kf1 Bd6 11. Nf3 Qf6 12. d3 O-O-O 13. Kf2 h5 14. Rf1 g5 15. Kg1 g4 16. Nd4 Qe5 17. Rf4 gxh3 18. g3 Rhg8 19. Kh2 Rg4 20. Nxc6 bxc6 21. Nc3 Rdg8 22. Ne2 h4 23. Qg1 hxg3+ 24. Nxg3 Rxg3 25. Qxg3 Rxg3 26. Kxg3 Qg5+ 27. Kxh3 Bxf4 28. exf4 Qg1 29. b4 f5 30. Bb2 Qg4+ 31. Kh2 Qxf4+ 32. Kg1 Qg3+ 33. Kf1 f4 34. Bd4 f3 35. Bf2 Qg2+ 36. Ke1 Qh1+ 37. Kd2 Qxa1', '0:10:00 0:10:00 0:09:55 0:09:59 0:09:50 0:09:58 0:09:41 0:09:58 0:09:38 0:09:55 0:09:35 0:09:47 0:09:32 0:09:45 0:09:30 0:09:31 0:09:27 0:09:25 0:09:25 0:09:24 0:09:21 0:09:14 0:09:07 0:09:11 0:09:01 0:08:46 0:08:57 0:08:36 0:08:54 0:08:31 0:08:46 0:08:25 0:08:29 0:08:18 0:08:24 0:08:08 0:08:21 0:07:49 0:07:31 0:07:37 0:07:29 0:07:28 0:07:26 0:07:16 0:07:17 0:06:58 0:07:12 0:06:50 0:07:10 0:06:46 0:07:08 0:06:44 0:07:07 0:06:41 0:07:04 0:06:38 0:06:44 0:06:35 0:06:41 0:06:32 0:06:40 0:06:29 0:05:59 0:06:24 0:05:53 0:06:21 0:05:23 0:06:14 0:05:12 0:06:09 0:05:08 0:06:07 0:05:07 0:06:06'),
@@ -3521,7 +3522,7 @@ insert into piece values
 ('Bf1', 'Bishop', 'W'),
 ('Ng1', 'Knight', 'W'),
 ('Rh1', 'Rook', 'W'),
-('Rh8', 'Rook', 'B'),
+('Ra8', 'Rook', 'B'),
 ('Nb8', 'King', 'B'),
 ('Bc8', 'Bishop', 'B'),
 ('Qd8', 'Queen', 'B'),
@@ -3529,3 +3530,150 @@ insert into piece values
 ('Bf8', 'Bishop', 'B'),
 ('Ng8', 'Knight', 'B'),
 ('Rh8', 'Rook', 'B');
+
+insert into board values
+(1, 1, 'a1'),
+(1, 2, 'a2'),
+(1, 3, 'a3'),
+(1, 4, 'a4'),
+(1, 5, 'a5'),
+(1, 6, 'a6'),
+(1, 7, 'a7'),
+(1, 8, 'a8'),
+(2, 1, 'b1'),
+(2, 2, 'b2'),
+(2, 3, 'b3'),
+(2, 4, 'b4'),
+(2, 5, 'b5'),
+(2, 6, 'b6'),
+(2, 7, 'b7'),
+(2, 8, 'b8'),
+(3, 1, 'c1'),
+(3, 2, 'c2'),
+(3, 3, 'c3'),
+(3, 4, 'c4'),
+(3, 5, 'c5'),
+(3, 6, 'c6'),
+(3, 7, 'c7'),
+(3, 8, 'c8'),
+(4, 1, 'd1'),
+(4, 2, 'd2'),
+(4, 3, 'd3'),
+(4, 4, 'd4'),
+(4, 5, 'd5'),
+(4, 6, 'd6'),
+(4, 7, 'd7'),
+(4, 8, 'd8'),
+(5, 1, 'e1'),
+(5, 2, 'e2'),
+(5, 3, 'e3'),
+(5, 4, 'e4'),
+(5, 5, 'e5'),
+(5, 6, 'e6'),
+(5, 7, 'e7'),
+(5, 8, 'e8'),
+(6, 1, 'f1'),
+(6, 2, 'f2'),
+(6, 3, 'f3'),
+(6, 4, 'f4'),
+(6, 5, 'f5'),
+(6, 6, 'f6'),
+(6, 7, 'f7'),
+(6, 8, 'f8'),
+(7, 1, 'g1'),
+(7, 2, 'g2'),
+(7, 3, 'g3'),
+(7, 4, 'g4'),
+(7, 5, 'g5'),
+(7, 6, 'g6'),
+(7, 7, 'g7'),
+(7, 8, 'g8'),
+(8, 1, 'h1'),
+(8, 2, 'h2'),
+(8, 3, 'h3'),
+(8, 4, 'h4'),
+(8, 5, 'h5'),
+(8, 6, 'h6'),
+(8, 7, 'h7'),
+(8, 8, 'h8');
+
+-- This doesn't work :(
+
+-- delimiter $$
+-- create procedure calculate_squares()
+-- begin
+--     declare sqre char(2);
+--     declare i int;
+--     declare j int;
+--     set i = 1;
+--     set j = 1;
+--     while i <= 8 do
+--         while j <= 8 do
+--             udpate board
+--             set board.sqre = select (concat(char(96 + 1), 1))
+--             where x = i and y = j;
+--             set j = j + 1;
+--         end while;
+--         set i = i + 1;
+--         set j = 1;
+--     end while;
+-- end ; $$
+-- delimiter ;
+
+-- Creating views for all the moves possible for each chess piece
+
+create view moves_all (x, y, fromsquare, xi, yi, tosquare)
+as
+select r.x, r.y, r._square, o.x, o.y, o._square
+from board as r cross join board as o
+where r._square != o._square;
+
+create view moves_rook
+as
+select fromsquare, tosquare
+from moves_all
+where (x = xi or y = yi);
+
+create view moves_bishop
+as
+select fromsquare, tosquare
+from moves_all
+where (abs(x - xi) = abs(y - yi));
+
+create view moves_knight
+as
+select fromsquare, tosquare
+from moves_all
+where (abs(x - xi) = 2 and abs(y - yi) = 1) or (abs(x - xi) = 1 and abs(y - yi) = 2);
+
+create view moves_valid
+as
+select *
+from moves_all
+where (x = xi or y = yi)
+or (abs(x - xi) = abs(y - yi))
+or (abs(x - xi) = 2 and abs(y - yi) = 1) or (abs(x - xi) = 1 and abs(y - yi) = 2);
+
+create view moves_queen
+as
+select * from moves_bishop
+union all
+select * from moves_rook;
+
+create view moves_king
+as
+select fromsquare, tosquare
+from moves_all
+where (abs(x - xi) < 2 and abs(y - yi) < 2)
+or (y = yi and x = 5 and abs(x - xi) = 2 and y in (1, 8));
+
+create view moves_pawn
+as
+select fromsquare, tosquare
+from moves_all
+where y != yi
+and (
+    (abs(x - xi) < 2 and abs(y - yi) < 2)
+    or
+    (x = xi and ((y = 2 and yi = 4) or (y = 7 and yi = 5)))
+);
