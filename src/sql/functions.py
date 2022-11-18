@@ -10,3 +10,6 @@ chessDB = mysql.connector.connect(
 
 cur = chessDB.cursor()
 
+def query_execute(query):
+    cur.execute(query)
+    return cur.fetchall()
