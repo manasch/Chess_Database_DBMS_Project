@@ -8,7 +8,10 @@ chessDB = mysql.connector.connect(
     database=config.database
 )
 
-cur = chessDB.cursor()
+cur = chessDB.cursor(
+    buffered=True,
+    dictionary=True
+)
 
 def query_execute(query):
     cur.execute(query)

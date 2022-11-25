@@ -1,6 +1,15 @@
 import streamlit as st
+import pandas as pd
 from sql.functions import query_execute
 
 query = st.text_area('Custom Query')
-res = query_execute(query)
-st.write(res)
+try:
+    if query:
+        res = query_execute(query)
+        df = pd.DataFrame(res)
+        df.index += 1
+        st.dataframe(df, use_container_width=True)
+    else:
+        st.warning('Empty')
+except Exception as e:
+    st.warning(e)

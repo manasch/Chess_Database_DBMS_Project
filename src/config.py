@@ -37,7 +37,10 @@ tables = {
             'key': 'player.last_name',
             'label': 'Last Name',
             'type': str
-        }
+        },
+        'keys': [
+            'player_id'
+        ]
     },
     'player_elo': {
         'player_id': {
@@ -63,7 +66,10 @@ tables = {
             'key': 'player_elo._standard',
             'label': 'Standard ELO',
             'type': int
-        }
+        },
+        'keys': [
+            'player_id'
+        ]
     },
     'opening': {
         'eco': {
@@ -83,9 +89,37 @@ tables = {
             'key': 'opening.move_set',
             'label': 'Mainline Moves',
             'type': str
-        }
+        },
+        'keys': [
+            'eco',
+            'op_name',
+            'move_set'
+        ]
     },
     'game_moves': {
+        'move_id': {
+            'function': st.text_input,
+            'key': 'game_moves.move_id',
+            'label': 'Move ID',
+            'type': str
+        },
+        'move_desc': {
+            'function': st.text_area,
+            'key': 'game_moves.move_desc',
+            'label': 'Move Description / Set',
+            'type': str
+        },
+        'move_timestamps': {
+            'function': st.text_input,
+            'key': 'game_moves.move_timestamps',
+            'label': 'Move ID',
+            'type': str
+        },
+        'keys': [
+            'move_id'
+        ]
+    },
+    'game': {
         'game_id': {
             'function': st.text_input,
             'key': 'game_moves.game_id',
@@ -139,7 +173,10 @@ tables = {
             'key': 'game_moves.move_id',
             'label': 'Move ID',
             'type': str
-        }
+        },
+        'keys': [
+            'game_id'
+        ]
     },
     'participate': {
         'pid1': {
@@ -159,6 +196,11 @@ tables = {
             'key': 'participate.gid',
             'label': 'Game ID',
             'type': str
-        }
+        },
+        'keys': [
+            'pid1',
+            'pid2',
+            'gid'
+        ]
     }
 }
