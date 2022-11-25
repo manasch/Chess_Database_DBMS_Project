@@ -1,6 +1,21 @@
 import streamlit as st
 import datetime
 
+
+def return_html_string(fen):
+    html = f'''
+    <script type="module" src="https://unpkg.com/chessboard-element/bundled/chessboard-element.bundled.js"></script>
+
+    <chess-board
+        draggable-pieces
+        position={fen}>
+    </chess-board>
+    '''
+
+    return html
+
+start = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+
 host = 'localhost'
 user = 'chess_database_user'
 password = 'chessmaster'
