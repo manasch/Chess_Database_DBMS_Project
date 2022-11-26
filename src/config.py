@@ -62,7 +62,12 @@ tables = {
             'function': st.selectbox,
             'key': 'player_elo.player_id',
             'label': 'Player ID',
-            'type': str
+            'type': str,
+            'references': 'player',
+            'required': [
+                'player.player_id',
+                'player.username'
+            ]
         },
         '_bullet': {
             'function': st.number_input,
@@ -91,7 +96,12 @@ tables = {
             'function': st.selectbox,
             'key': 'opening.eco',
             'label': 'ECO Code',
-            'type': str
+            'type': str,
+            'references': '',
+            'required': [
+                'opening.eco',
+                'opening.op_name'
+            ]
         },
         'op_name': {
             'function': st.text_input,
@@ -125,9 +135,9 @@ tables = {
             'type': str
         },
         'move_timestamps': {
-            'function': st.text_input,
+            'function': st.text_area,
             'key': 'game_moves.move_timestamps',
-            'label': 'Move ID',
+            'label': 'Move Timestamps',
             'type': str
         },
         'keys': [
@@ -157,13 +167,15 @@ tables = {
             'function': st.radio,
             'key': 'game_moves.rated',
             'label': 'Rated',
-            'type': bool
+            'type': bool,
+            'options': [True, False]
         },
         'result': {
             'function': st.radio,
             'key': 'game_moves.result',
             'label': 'Result',
-            'type': str
+            'type': str,
+            'options': ['1-0', '0-1', '1/2-1/2']
         },
         'time_control': {
             'function': st.text_input,
@@ -181,13 +193,23 @@ tables = {
             'function': st.selectbox,
             'key': 'game_moves.eco',
             'label': 'ECO Code',
-            'type': str
+            'type': str,
+            'references': 'opening',
+            'required': [
+                'opening.eco',
+                'opening.op_name'
+            ]
         },
         'move_id': {
             'function': st.selectbox,
             'key': 'game_moves.move_id',
             'label': 'Move ID',
-            'type': str
+            'type': str,
+            'references': 'game_moves',
+            'required': [
+                'game_moves.move_id',
+                'game_moves.move_desc'
+            ]
         },
         'keys': [
             'game_id'
@@ -198,19 +220,33 @@ tables = {
             'function': st.selectbox,
             'key': 'participate.pid1',
             'label': 'Player 1',
-            'type': str
+            'type': str,
+            'references': 'player',
+            'required': [
+                'player.player_id',
+                'player.username'
+            ]            
         },
         'pid2': {
             'function': st.selectbox,
             'key': 'participate.pid2',
             'label': 'Player 2',
-            'type': str
+            'type': str,
+            'references': 'player',
+            'required': [
+                'player.player_id',
+                'player.username'
+            ]
         },
         'gid': {
             'function': st.selectbox,
             'key': 'participate.gid',
             'label': 'Game ID',
-            'type': str
+            'type': str,
+            'references': 'game',
+            'required': [
+                'game.game_id'
+            ]
         },
         'keys': [
             'pid1',
