@@ -51,6 +51,33 @@ def insert_into_table(table_name, values, cols):
         else:
             query += f"{value});" if type(value) == bool else f"\"{value}\");"
     
-    print(query)
+    cur.execute(query)
+    chessDB.commit()
+
+def get_items_by_primary_keys(table_name, cols, keys):
+    query = f"select * from {table_name} where "
+
+    for i, k in enumerate(zip(cols, keys), 1):
+        if i != len(cols):
+            query += f"{k[0]} = \"{k[1]}\" and "
+        else:
+            query += f"{k[0]} = \"{k[1]}\";"
+    
+    return query_execute(query)
+
+def update_table(table_name, new_values, cols, key_attr, keys):
+    query = f"update {table_name} set "
+    for i, new_val in enumerate(new_values, 1):
+        if i != len(new_values):
+            query += f"{cols[i - 1]} = {new_val}, " if type(new_val) == bool else f"{cols[i - 1]} = \"{new_val}\", "
+        else:
+            query += f"{cols[i - 1]} = {new_val} " if type(new_val) == bool else f"{cols[i - 1]} = \"{new_val}\" "
+    
+    for j, key in enumerate(keys, 1):
+        if j != len(keys):
+            query += f"where {key_attr[j - 1]} = \"{key}\", "
+        else:
+            query += f"where {key_attr[j - 1]} = \"{key}\";"
+    
     cur.execute(query)
     chessDB.commit()
