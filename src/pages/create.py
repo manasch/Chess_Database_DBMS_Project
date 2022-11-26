@@ -1,6 +1,6 @@
 import streamlit as st
 from config import tables
-from sql.functions import get_items_for_selectbox
+from sql.functions import get_items_for_selectbox, insert_into_table
 
 def main():
     st.subheader("Add Entries")
@@ -10,6 +10,8 @@ def main():
 
     attr = tables[selected_table]
     attr_keys = list(attr.keys())
+    select_values = []
+    select_labels = []
 
     # insert keys
     for k in attr['keys']:
@@ -17,9 +19,11 @@ def main():
         if func == st.selectbox:
             references = attr[k]['references']
             res = get_items_for_selectbox(references if references else selected_table, attr[k]['required'])
-            func(attr[k]['label'], res)
+            select_values.append(func(attr[k]['label'], res).split(' - ')[0])
+            select_labels.append(k)
         else:
-            func(attr[k]['label'])
+            select_values.append(func(attr[k]['label']))
+            select_labels.append(k)
 
     # insert other values
     c1, c2 = st.columns(2)
@@ -30,15 +34,19 @@ def main():
             
             if func == st.radio:
                 options = col['options']
-                func(col['label'], options)
+                select_values.append(func(col['label'], options))
+                select_labels.append(attr_keys[v1])
             elif func == st.selectbox:
                 references = col['references']
                 res = get_items_for_selectbox(references if references else selected_table, col['required'])
-                func(col['label'], res)
+                select_values.append(func(col['label'], res).split(' - ')[0])
+                select_labels.append(attr_keys[v1])
             elif func == st.number_input:
-                func(col['label'], step=1, min_value=0)
+                select_values.append(func(col['label'], step=1, min_value=0))
+                select_labels.append(attr_keys[v1])
             else:
-                func(col['label'])
+                select_values.append(func(col['label']))
+                select_labels.append(attr_keys[v1])
     with c2:
         for v2 in range(len(attr['keys']) + 1, len(attr_keys) - 1, 2):
             col = attr[attr_keys[v2]]
@@ -46,15 +54,26 @@ def main():
             
             if func == st.radio:
                 options = col['options']
-                func(col['label'], options)
+                select_values.append(func(col['label'], options))
+                select_labels.append(attr_keys[v2])
             elif func == st.selectbox:
                 references = col['references']
                 res = get_items_for_selectbox(references if references else selected_table, col['required'])
-                func(col['label'], res)
+                select_values.append(func(col['label'], res).split(' - ')[0])
+                select_labels.append(attr_keys[v2])
             elif func == st.number_input:
-                func(col['label'], step=1, min_value=0)
+                select_values.append(func(col['label'], step=1, min_value=0))
+                select_labels.append(attr_keys[v2])
             else:
-                func(col['label'])
+                select_values.append(func(col['label']))
+                select_labels.append(attr_keys[v2])
+
+    if st.button(f"Add new {selected_table} entry"):
+        try:
+            insert_into_table(selected_table, select_values, select_labels)
+            st.success(f"Successfully added new entry to {selected_table}")
+        except Exception as e:
+            st.warning(e)
 
 
 if __name__ == "__main__":

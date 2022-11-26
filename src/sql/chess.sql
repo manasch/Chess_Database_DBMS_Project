@@ -8,7 +8,7 @@ create table player (
     player_id varchar(50) not null,
     username varchar(50) not null,
     title varchar(50),
-    fist_name varchar(50) not null,
+    first_name varchar(50) not null,
     last_name varchar(50),
     primary key (player_id)
 );

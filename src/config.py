@@ -99,8 +99,7 @@ tables = {
             'type': str,
             'references': '',
             'required': [
-                'opening.eco',
-                'opening.op_name'
+                'opening.eco'
             ]
         },
         'op_name': {
@@ -158,10 +157,11 @@ tables = {
             'type': datetime.date
         },
         'game_type': {
-            'function': st.text_input,
+            'function': st.radio,
             'key': 'game_moves.game_type',
             'label': 'Game Type',
-            'type': str
+            'type': str,
+            'options': ['Standard', 'Bullet', 'Blitz']
         },
         'rated': {
             'function': st.radio,
@@ -197,7 +197,8 @@ tables = {
             'references': 'opening',
             'required': [
                 'opening.eco',
-                'opening.op_name'
+                'opening.op_name',
+                'opening.move_set'
             ]
         },
         'move_id': {
