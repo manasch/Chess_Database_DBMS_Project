@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import datetime
 
 
@@ -13,6 +14,28 @@ def return_html_string(fen):
     '''
 
     return html
+
+def parse_game_moves(move_set):
+    moves = move_set.split()
+    white_moves = []
+    black_moves = []
+    n = len(moves)
+    for m in range(0, n, 3):
+        if m + 1 < n:
+            white_moves.append(moves[m + 1])
+        if m + 2 < n:
+            black_moves.append(moves[m + 2])
+
+    if len(white_moves) > len(black_moves):
+        black_moves.append(' ')
+    elif len(white_moves) < len(black_moves):
+        white_moves.append(' ')
+    else:
+        pass
+    
+    df = pd.DataFrame(data={'white': white_moves, 'black': black_moves})
+    df.index += 1
+    return df
 
 start = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 

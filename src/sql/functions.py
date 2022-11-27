@@ -1,6 +1,5 @@
 import mysql.connector
 import config
-import streamlit as st
 
 chessDB = mysql.connector.connect(
     host=config.host,
@@ -96,3 +95,25 @@ def delete_from_table(table_name, table_keys, keys_attr):
     
     cur.execute(query)
     chessDB.commit()
+
+def game_joins():
+    query = "select pid1, pid2, gid, game.move_id, move_desc from participate left join game on gid = game_id join game_moves on game.move_id = game_moves.move_id;"
+    cur.execute(query)
+    return cur.fetchall()
+
+def get_username_from_pid(pid):
+    query = f"select username from player where player_id = \"{pid}\""
+    return query_execute(query)
+
+def get_choices_for_game_selectbox():
+    game_data = game_joins()
+
+    games_played = []
+    ids = []
+    for g in game_data:
+        p1 = get_username_from_pid(g['pid1'])[0]['username']
+        p2 = get_username_from_pid(g['pid2'])[0]['username']
+        games_played.append(f"{g['gid']} - {p1} [{g['pid1']}] vs {p2} [{g['pid2']}]")
+        ids.append((g['gid'], g['pid1'], g['pid2']))
+
+    return (games_played, ids)
