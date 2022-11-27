@@ -81,3 +81,18 @@ def update_table(table_name, new_values, cols, key_attr, keys):
     
     cur.execute(query)
     chessDB.commit()
+
+def get_all_from_table(table_name):
+    query = f"select * from {table_name}"
+    return query_execute(query)
+
+def delete_from_table(table_name, table_keys, keys_attr):
+    query = f"delete from {table_name} where "
+    for i, key in enumerate(table_keys, 1):
+        if i != len(table_keys):
+            query += f"{keys_attr[i - 1]} = \"{key}\" and "
+        else:
+            query += f"{keys_attr[i - 1]} = \"{key}\";"
+    
+    cur.execute(query)
+    chessDB.commit()
