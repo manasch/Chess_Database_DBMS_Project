@@ -15,6 +15,8 @@ cur = chessDB.cursor(
 
 def query_execute(query):
     cur.execute(query)
+    if "call" in query.lower():
+        return None
     return cur.fetchall()
 
 def get_items_for_selectbox(referenced, required):

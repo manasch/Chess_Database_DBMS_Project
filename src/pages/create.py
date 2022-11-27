@@ -1,6 +1,7 @@
 import streamlit as st
+import pandas as pd
 from config import tables
-from sql.functions import get_items_for_selectbox, insert_into_table
+from sql.functions import get_items_for_selectbox, insert_into_table, get_all_from_table
 
 def main():
     st.subheader("Add Entries")
@@ -72,6 +73,12 @@ def main():
         try:
             insert_into_table(selected_table, select_values, select_labels)
             st.success(f"Successfully added new entry to {selected_table}")
+
+            new_df = pd.DataFrame(get_all_from_table(selected_table))
+            new_df.index += 1
+
+            with st.expander(f"Table **{selected_table}** After Insertion"):
+                st.dataframe(new_df, use_container_width=True)
         except Exception as e:
             st.warning(e)
 

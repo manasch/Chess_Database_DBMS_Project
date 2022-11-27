@@ -1,12 +1,21 @@
 import streamlit as st
+import pandas as pd
 from config import tables
-from sql.functions import get_items_for_selectbox, get_items_by_primary_keys, update_table
+from sql.functions import get_items_for_selectbox, get_items_by_primary_keys, update_table, get_all_from_table
 
 def main():
     st.subheader('Update Entries')
 
     table_keys = tables.keys()
     selected_table = st.selectbox('**Tables**', table_keys)
+
+    data = get_all_from_table(selected_table)
+
+    df = pd.DataFrame(data)
+    df.index += 1
+
+    with st.expander(f"Table **{selected_table}** Before Update"):
+        st.dataframe(df, use_container_width=True)
 
     attr = tables[selected_table]
     attr_keys = list(attr.keys())
@@ -71,6 +80,12 @@ def main():
         try:
             update_table(selected_table, new_select_values, select_labels, attr['keys'], primary_keys)
             st.success(f"Successfully updated table {selected_table}")
+
+            new_df = pd.DataFrame(get_all_from_table(selected_table))
+            new_df.index += 1
+
+            with st.expander(f"Table **{selected_table}** After Update"):
+                st.dataframe(new_df, use_container_width=True)
         except Exception as e:
             st.warning(e)
 
