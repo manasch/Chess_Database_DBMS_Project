@@ -84,7 +84,6 @@ returns int
 deterministic
 begin
     declare win_count, done int default 0;
-    declare p1, p2, res varchar(50);
     select count(*) from game inner join participate on game_id = gid where (pid1 = pid and result = "1-0") or (pid2 = pid and result = "0-1")
     into win_count;
     
@@ -92,7 +91,7 @@ begin
 end $$
 delimiter ;
 
-select player_id, count_wins(player_id) as "# wins" from player;
+select player_id, username, count_wins(player_id) as "# wins" from player;
 
 -- Trigger
 -- Check for elo on insert, should not cross 3000
