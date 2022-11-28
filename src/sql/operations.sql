@@ -62,7 +62,7 @@ select player_id as 'pid', username from player
 intersect
 (select pid1 as 'pid', username from participate natural join player union select pid2 as 'pid', username from participate natural join player);
 
--- Procedure
+-- Procedure 1
 -- Set default elo to 600
 delimiter $$
 create procedure default_elo()
@@ -75,6 +75,26 @@ create procedure default_elo()
 delimiter ;
 
 call default_elo;
+
+-- Procedure 2
+delimiter $$
+create procedure player_play_count()
+    begin
+        drop table if exists temp_count;
+        create table if not exists temp_count(username varchar(50), game_count int, player_id varchar(50));
+        create or replace view play_count as
+        (select pid1 as 'pid' from participate
+        union all
+        select pid2 as 'pid' from participate);
+        insert into temp_count
+        select username, count(*) as 'game_count', player_id
+        from player join play_count on player.player_id = play_count.pid
+        group by player.player_id
+        having count(*) >= 2;
+    end $$
+delimiter ;
+
+call player_play_count;
 
 -- Function
 -- Show the number of games won by a player
